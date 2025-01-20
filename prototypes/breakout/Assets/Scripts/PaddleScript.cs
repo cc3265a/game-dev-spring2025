@@ -28,5 +28,8 @@ public class PaddleScript : MonoBehaviour
             newPosition.x -= -speed * Time.deltaTime;
             transform.position = newPosition;
         }
+
+        GameManager.SharedInstance.GetPaddlePos(transform.position);
+
     }
 }

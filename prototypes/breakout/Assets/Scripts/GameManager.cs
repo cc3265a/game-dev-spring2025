@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     public BrickScript[,] bricks;
     int level = 0;
 
+    public TMP_Text PointsText;
+    int points = 0;
+
+    Vector3 SpawnPos = new Vector3(0, 10, 0);
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,7 +26,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Brick");
+            foreach (GameObject go in gos)
+                Destroy(go);
+
+            level++;
+            print(level);
+            NewLevel();
+        }
+
     }
 
     public void changeLivesText(string txt)
@@ -30,43 +44,39 @@ public class GameManager : MonoBehaviour
         print("change called");
         livesText.text = txt;
     }
+    public void PointsGet(int addPoints)
+    {
+        points = points + addPoints; 
+        PointsText.text = points.ToString();
+    }
 
     public void checkBrickCount()
     {
         if (GameObject.FindGameObjectsWithTag("Brick").Length == 0)
         {
-            if (GameObject.FindGameObjectsWithTag("Brick1").Length == 0)
+            if (level < 5)
             {
-                if (GameObject.FindGameObjectsWithTag("Brick2").Length == 0)
-                {
-                    if (GameObject.FindGameObjectsWithTag("Brick3").Length == 0)
-                    {
-                        if (GameObject.FindGameObjectsWithTag("Brick4").Length == 0)
-                        {
-                            if (GameObject.FindGameObjectsWithTag("Brick5").Length == 0)
-                            {
-                                if (level < 5)
-                                {
-                                    level++;
-                                    NewLevel();
-                                }
-                            }
-                        }
-                    }
-                }
+                level++;
+                NewLevel();
             }
         }
     }
 
     void NewLevel()
     {
+        PointsGet(level*2);
+        if (level > 5)
+        {
+            level = 0;
+        }
         int brickCount = 6 - level;
+        print("brick count = "+ brickCount);
         bricks = new BrickScript[15, brickCount];
 
 
         for (int x = 0; x < 15; x++)
         {
-            for (int y = level; y < brickCount; y++)
+            for (int y = 0; y < brickCount; y++)
             {
                 // Create a position based on x, y
                 Vector3 pos = transform.position;
@@ -85,4 +95,15 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void GetPaddlePos(Vector3 paddlePos)
+    {
+        SpawnPos = paddlePos;
+    }
+    public float getSpawnPos()
+    {
+        return SpawnPos.x;
+    }
+
+
 }
