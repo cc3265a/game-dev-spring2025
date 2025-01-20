@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PaddleScript : MonoBehaviour
 {
-    float speed = 15;
+    float speed = 18;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

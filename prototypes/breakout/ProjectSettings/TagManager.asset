@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Brick
+  - Brick1
+  - Brick2
+  - Brick3
+  - Brick4
+  - Brick5
   layers:
   - Default
   - TransparentFX
