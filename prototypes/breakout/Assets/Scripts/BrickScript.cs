@@ -5,6 +5,8 @@ public class BrickScript : MonoBehaviour
     public int x = -1;
     public int y = -1;
 
+    Rigidbody rb;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,4 +18,10 @@ public class BrickScript : MonoBehaviour
     {
         
     }
+    void OnCollisionEnter(Collision collision)
+    {
+        rb.isKinematic = true;  
+
+    }
+
 }
