@@ -10,6 +10,7 @@ TagManager:
   - Brick3
   - Brick4
   - Brick5
+  - ball
   layers:
   - Default
   - TransparentFX

@@ -7,12 +7,15 @@ public class BallScript : MonoBehaviour
 
     [SerializeField]
     public int Lives = 5;
-        
+
+    Collider myCollider;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ballBegins();
-
+        myCollider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -36,6 +39,13 @@ public class BallScript : MonoBehaviour
 
 
         }
+        if (collision.gameObject.CompareTag("Brick1"))
+        {
+            print("ignore collision");
+            Physics.IgnoreCollision(myCollider, collision.gameObject.GetComponent<Collider>(), true);
+
+        }
+
 
     }
 
