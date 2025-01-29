@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager SharedInstance;
     public TMP_Text livesText;
     public GameObject BrickPrefab;
+    public GameObject Brick2Prefab;
+
     public BrickScript[,] bricks;
     int level = 0;
 
@@ -14,6 +16,8 @@ public class GameManager : MonoBehaviour
     int points = 0;
 
     Vector3 SpawnPos = new Vector3(0, 10, 0);
+
+    public int Lives = 5;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public void changeLivesText(string txt)
     {
-        print("change called");
+        //print("change called");
         livesText.text = txt;
     }
     public void PointsGet(int addPoints)
@@ -64,12 +68,15 @@ public class GameManager : MonoBehaviour
 
     void NewLevel()
     {
+        //BallScript.SharedInstance2.resetBallPos();
+
+        Lives++;
         PointsGet(level*2);
         if (level > 5)
         {
             level = 0;
         }
-        int brickCount = 6 - level;
+        int brickCount = 6 - 1;
         print("brick count = "+ brickCount);
         bricks = new BrickScript[15, brickCount];
 
@@ -78,6 +85,8 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < brickCount; y++)
             {
+                GameObject useBrick = BrickPrefab;
+
                 // Create a position based on x, y
                 Vector3 pos = transform.position;
                 float cellWidth = 3.5f;
@@ -85,7 +94,13 @@ public class GameManager : MonoBehaviour
                 float spacing = 0.00f;
                 pos.x = pos.x + x * (cellWidth + spacing);
                 pos.y = pos.y + y * (cellHeight + spacing);
-                GameObject brickObj = Instantiate(BrickPrefab, pos, transform.rotation);
+                float randBrick = Random.Range(0f, 10f);
+                if (randBrick <= level)
+                {
+                    print("speed brick made at " + x + " " + y);
+                    useBrick = Brick2Prefab;
+                }
+                GameObject brickObj = Instantiate(useBrick, pos, transform.rotation);
 
                 bricks[x, y] = brickObj.GetComponent<BrickScript>();
                 bricks[x, y].x = x;
@@ -105,5 +120,13 @@ public class GameManager : MonoBehaviour
         return SpawnPos.x;
     }
 
+    public int getLives()
+    {
+        return Lives;
+    }
 
+    public void loseLife()
+    {
+        Lives--;
+    }
 }

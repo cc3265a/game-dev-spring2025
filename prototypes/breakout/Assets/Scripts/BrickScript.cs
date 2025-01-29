@@ -6,7 +6,7 @@ public class BrickScript : MonoBehaviour
     public int y = -1;
 
     [SerializeField]
-    Rigidbody rb;
+    bool isFalling = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,16 +16,22 @@ public class BrickScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isFalling == true)
+        {
+            Vector3 newPosition = transform.position;
+            newPosition.y -= 10 * Time.deltaTime;
+            transform.position = newPosition;
+        }
     }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("ball"))
         {
-            print("brick hit");
+            //print("brick hit");
             GameObject mGO = this.gameObject;
-            //Rigidbody gameObjectsRigidBody = mGO.AddComponent<Rigidbody>(); // Add the rigidbody.
             transform.gameObject.tag = "Brick1";
+            isFalling = true;
+            GetComponent<Collider>().isTrigger = true;
         }
 
               

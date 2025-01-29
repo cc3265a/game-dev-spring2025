@@ -11,6 +11,7 @@ TagManager:
   - Brick4
   - Brick5
   - ball
+  - escapeTag
   layers:
   - Default
   - TransparentFX

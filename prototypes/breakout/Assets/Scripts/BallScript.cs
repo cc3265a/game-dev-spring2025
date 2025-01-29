@@ -6,14 +6,18 @@ public class BallScript : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField]
-    public int Lives = 5;
 
     Collider myCollider;
+    float tooSlow = 0;
 
+    public static BallScript SharedInstance2;
+
+    float speedBoost = 1.1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SharedInstance2 = this;
         ballBegins();
         myCollider = GetComponent<Collider>();
     }
@@ -22,7 +26,36 @@ public class BallScript : MonoBehaviour
     void Update()
     {
         //print(rb.linearVelocity);
-        
+        if (rb.linearVelocity.magnitude < 2 || Mathf.Abs(rb.linearVelocity.y) < 1)
+        {
+            Vector3 oldVel = rb.linearVelocity;
+            tooSlow += Time.deltaTime;
+            print("tooslow " + tooSlow + " " + rb.linearVelocity.magnitude);
+
+
+            if (tooSlow >= 3)
+            {
+                print("if statement");
+                //rb.linearVelocity = new Vector3(oldVel.x, oldVel.y * 10, 0);
+
+                float randX = Random.Range(-5f, 5f);
+                Vector3 m_NewForce = new Vector3(randX, 10.0f, 0.0f);
+
+
+                rb.AddForce(m_NewForce, ForceMode.Impulse);
+
+
+                print(rb.linearVelocity.magnitude);
+                tooSlow = 0;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            rb.linearVelocity = new Vector3(1, 1, 0);
+        }
+
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -34,15 +67,14 @@ public class BallScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Brick"))
         {
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
             GameManager.SharedInstance.PointsGet(1);
 
 
         }
-        if (collision.gameObject.CompareTag("Brick1"))
+        if (collision.gameObject.CompareTag("Brick2"))
         {
-            print("ignore collision");
-            Physics.IgnoreCollision(myCollider, collision.gameObject.GetComponent<Collider>(), true);
+            rb.linearVelocity = new Vector3(oldVelocity.x * speedBoost, oldVelocity.y * speedBoost, 0);
 
         }
 
@@ -51,23 +83,31 @@ public class BallScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("escape!");
-        Lives--;
-        GameManager.SharedInstance.changeLivesText(Lives.ToString());
-        if (Lives > 0)
-            ballBegins();
+        if (other.gameObject.CompareTag("escapeTag"))
+        {
+
+            //print("escape!");
+            GameManager.SharedInstance.loseLife();
+            GameManager.SharedInstance.changeLivesText(GameManager.SharedInstance.getLives().ToString());
+            if (GameManager.SharedInstance.getLives() > 0)
+                ballBegins();
+        }
     }
 
     void ballBegins()
     {
-        print("began");
-
-        float ballX = GameManager.SharedInstance.getSpawnPos();
-
-
-        Vector3 ballPos = new Vector3(ballX, 10, 0);
-        rb.MovePosition(ballPos);
+        resetBallPos();
+        
         float randNum = Random.Range(-5f, 5f);
         rb.linearVelocity = new Vector3(randNum, -15, 0);
     }
+    
+    public void resetBallPos()
+    {
+        print("reset ball pos");
+        float paddlePos = GameManager.SharedInstance.getSpawnPos();
+
+        rb.MovePosition(new Vector3 (paddlePos, 10, 0));
+    }
+
 }
