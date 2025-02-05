@@ -707,6 +707,7 @@ MonoBehaviour:
   Brick2Prefab: {fileID: 4107039970919447606, guid: 53193717b6718154e9a5979cf0e83de7, type: 3}
   PointsText: {fileID: 673591053}
   Lives: 5
+  cam: {fileID: 330585545}
 --- !u!4 &492895236
 Transform:
   m_ObjectHideFlags: 0

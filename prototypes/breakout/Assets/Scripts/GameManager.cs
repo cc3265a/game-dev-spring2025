@@ -19,12 +19,17 @@ public class GameManager : MonoBehaviour
 
     public int Lives = 5;
 
+    //getting mouse pos stuff
+    [SerializeField]
+    Camera cam;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SharedInstance = this;
         NewLevel();
+
     }
 
     // Update is called once per frame
@@ -39,8 +44,14 @@ public class GameManager : MonoBehaviour
             level++;
             print(level);
             NewLevel();
-        }
+            BallScript.SharedInstance2.resetBallPos();
 
+        }
+        //getting mouse pos stuff and the vector towards mouse from ball
+        Vector3 ballInScreenCordSpace = cam.WorldToScreenPoint(transform.position);
+        Vector3 directionToMouse = Input.mousePosition - ballInScreenCordSpace;
+        directionToMouse.z = 0;
+        directionToMouse = directionToMouse.normalized;
     }
 
     public void changeLivesText(string txt)
@@ -62,13 +73,14 @@ public class GameManager : MonoBehaviour
             {
                 level++;
                 NewLevel();
+                BallScript.SharedInstance2.resetBallPos();
+
             }
         }
     }
 
     void NewLevel()
     {
-        //BallScript.SharedInstance2.resetBallPos();
 
         Lives++;
         PointsGet(level*2);
@@ -94,7 +106,7 @@ public class GameManager : MonoBehaviour
                 float spacing = 0.00f;
                 pos.x = pos.x + x * (cellWidth + spacing);
                 pos.y = pos.y + y * (cellHeight + spacing);
-                float randBrick = Random.Range(0f, 10f);
+                float randBrick = Random.Range(-1f, 20f);
                 if (randBrick <= level)
                 {
                     print("speed brick made at " + x + " " + y);
