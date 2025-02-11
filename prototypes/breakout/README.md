@@ -5,3 +5,7 @@
 /t In the making of this version I reaquainted myself with the basics of unity. I learned how to destroy gameobjects, lock movement onto certain axes, and create gameobjects at runtime with an array. More broadly I learned the true scope of even a "simple" game like breakout and how many variables there are that one can tune to totally change the way the game plays. Variables include: brick size and spacing, ball speed, paddle size and speed, ball bounce angle, width of playing field, and many more. 
 
 /t From my playtesters I learned mostly about a lot of small issues. The way the paddle movement felt and the speed of the ball, for example. Mostly though the changes I would make for version 2 were from my own observations.
+
+[Play breakout version 1](https://cc3265a.github.io/game-dev-spring2025/builds/breakout-1/)
+
+<img src="./images/breakout-1-image.png" alt="Breakout gameplay" align="right" width="350">
