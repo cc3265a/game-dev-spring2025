@@ -1,41 +1,39 @@
 using UnityEngine;
 
-public class BallScript : MonoBehaviour
+public class spareBallScript : MonoBehaviour
 {
     [SerializeField]
     Rigidbody rb;
 
     [SerializeField]
 
-    Collider myCollider;
-
-    [SerializeField]
-    GameObject spareBall;
-
+    //Collider myCollider;
     float tooSlow = 0;
 
-    public static BallScript SharedInstance2;
+    public static spareBallScript SharedInstance2;
 
     float speedBoost = 1.1f;
 
-    public GameObject BallPrefab;
+    public GameObject spareBallPrefab;
 
-    bool tooMany = false;
+    //bool tooMany = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SharedInstance2 = this;
-        ballBegins();
-        myCollider = GetComponent<Collider>();
+        //SharedInstance2 = this;
+        //spareBallBegins();
+        //myCollider = GetComponent<Collider>();
+        float randNum = Random.Range(-5f, 5f);
+        rb.linearVelocity = new Vector3(randNum, -15, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         //print(rb.linearVelocity);
-        if (rb.linearVelocity.magnitude < 3 || Mathf.Abs(rb.linearVelocity.y) < 1)
+        if (rb.linearVelocity.magnitude < 2 || Mathf.Abs(rb.linearVelocity.y) < 1)
         {
             Vector3 oldVel = rb.linearVelocity;
             tooSlow += Time.deltaTime;
@@ -63,14 +61,13 @@ public class BallScript : MonoBehaviour
         {
             rb.linearVelocity = new Vector3(1, 1, 0);
         }
-
         if (GameObject.FindGameObjectsWithTag("ball").Length >= 6)
         {
-            tooMany = true;
+            //tooMany = true;
         }
         else
         {
-            tooMany = false;
+            //tooMany = false;
         }
 
     }
@@ -94,17 +91,11 @@ public class BallScript : MonoBehaviour
             rb.linearVelocity = new Vector3(oldVelocity.x * speedBoost, oldVelocity.y * speedBoost, 0);
 
         }
-        
-        if (collision.gameObject.CompareTag("Brick3") && tooMany == false)
+        //if (collision.gameObject.CompareTag("Brick3") && tooMany == false)
         {
-            float i = 0;
-            while (i < 3)
-            {
-                Vector3 sparePos = new Vector3(transform.position.x + i/2, transform.position.y, transform.position.z);
-                GameObject spare = Instantiate(spareBall, sparePos, transform.rotation);
-                print("i = " + i);
-                i++;
-            }
+            //float randx = Random.Range(-1f, 1f);
+            //Vector3 extraBallPos = new Vector3(transform.position.x + randx, transform.position.y, transform.position.z);
+            //Instantiate(spareBallPrefab, transform.position, transform.rotation);
 
         }
 
@@ -115,37 +106,17 @@ public class BallScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("escapeTag"))
         {
-
-            //print("escape!");
-            GameManager.SharedInstance.loseLife();
-            GameManager.SharedInstance.changeLivesText(GameManager.SharedInstance.getLives().ToString());
-            if (GameManager.SharedInstance.getLives() > 0)
-                ballBegins();
+            //print("goodbye cruel world");
+            Destroy(this.gameObject);
+            
         }
     }
 
-    void ballBegins()
+    void spareBallBegins()
     {
-        resetBallPos();
-        
-        float randNum = Random.Range(-5f, 5f);
-        rb.linearVelocity = new Vector3(randNum, -15, 0);
-    }
-    
-    public void resetBallPos()
-    {
-        print("reset ball pos");
-        float paddlePos = GameManager.SharedInstance.getSpawnPos();
-        if(paddlePos < -15)
-        {
-            paddlePos = -14;
-        }
-        if(paddlePos > 28)
-        {
-            paddlePos = 25;
-        }
 
-        rb.MovePosition(new Vector3 (paddlePos, 8, 0));
+        //float randNum = Random.Range(-5f, 5f);
+        //rb.linearVelocity = new Vector3(randNum, -15, 0);
     }
 
 }

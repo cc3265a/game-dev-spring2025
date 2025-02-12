@@ -37,6 +37,14 @@ public class BrickScript : MonoBehaviour
               
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("escapeTag"))
+        {
+            print("brick has escaped");
+            //Destroy(this);
+        }
+    }
 
 
 }

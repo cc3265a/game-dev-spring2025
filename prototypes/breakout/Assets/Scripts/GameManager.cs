@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text livesText;
     public GameObject BrickPrefab;
     public GameObject Brick2Prefab;
+    public GameObject Brick3Prefab;
 
     public BrickScript[,] bricks;
     int level = 0;
@@ -81,21 +82,23 @@ public class GameManager : MonoBehaviour
 
     void NewLevel()
     {
-
+        int xcount = 12;
+        int ycount = 9;
         Lives++;
         PointsGet(level*2);
-        if (level > 5)
-        {
-            level = 0;
-        }
-        int brickCount = 6 - 1;
-        print("brick count = "+ brickCount);
-        bricks = new BrickScript[15, brickCount];
+        //if (level > 5)
+        //{
+        //    level = 0;
+        //}
+
+        //int brickCount = 10 - 1;
+        //print("brick count = "+ brickCount);
+        bricks = new BrickScript[xcount, ycount];
 
 
-        for (int x = 0; x < 15; x++)
+        for (int x = 0; x < xcount; x++)
         {
-            for (int y = 0; y < brickCount; y++)
+            for (int y = 0; y < ycount; y++)
             {
                 GameObject useBrick = BrickPrefab;
 
@@ -107,10 +110,18 @@ public class GameManager : MonoBehaviour
                 pos.x = pos.x + x * (cellWidth + spacing);
                 pos.y = pos.y + y * (cellHeight + spacing);
                 float randBrick = Random.Range(-1f, 20f);
+                float randBrick2 = Random.Range(-1f, 1f);
                 if (randBrick <= level)
                 {
-                    print("speed brick made at " + x + " " + y);
-                    useBrick = Brick2Prefab;
+                    if (randBrick2 < 0)
+                    {
+                        print("speed brick made at " + x + " " + y);
+                        useBrick = Brick2Prefab;
+                    }
+                    else
+                    {
+                        useBrick = Brick3Prefab;
+                    }
                 }
                 GameObject brickObj = Instantiate(useBrick, pos, transform.rotation);
 

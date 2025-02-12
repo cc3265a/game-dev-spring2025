@@ -8,6 +8,11 @@ public class PaddleScript : MonoBehaviour
     bool slowed = false;
     float timeSlowed = 0;
 
+    bool OOB = false;
+
+    [SerializeField]
+    Rigidbody rb;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,8 +23,24 @@ public class PaddleScript : MonoBehaviour
     void Update()
     {
 
+        if (transform.position.x < -15)
+        {
+            rb.MovePosition(new Vector3(-15, 0, 0));
+            OOB = true;
+        }
+        else if (transform.position.x > 28)
+        {
+            rb.MovePosition(new Vector3(28, 0, 0));
+            OOB = true;
+
+        }
+        else
+        {
+            OOB = false;
+        }
+
         //if left is pressed move left
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && OOB == false)
         {
             Vector3 newPosition = transform.position;
             newPosition.x -= speed * Time.deltaTime;
@@ -27,7 +48,7 @@ public class PaddleScript : MonoBehaviour
         }
 
         //if left is pressed move left
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && OOB == false)
         {
             Vector3 newPosition = transform.position;
             newPosition.x -= -speed * Time.deltaTime;
@@ -48,6 +69,7 @@ public class PaddleScript : MonoBehaviour
 
         if (slowed)
         {
+            GameObject.Find("Paddle").GetComponent<Renderer>().material.color = new Color32(200, 100, 100, 0);
             timeSlowed += Time.deltaTime;
             if(timeSlowed >= 2.5)
             {
@@ -56,8 +78,15 @@ public class PaddleScript : MonoBehaviour
                 timeSlowed = 0;
             }
         }
+        else
+        {
+            GameObject.Find("Paddle").GetComponent<Renderer>().material.color = new Color32(50, 50, 200, 1);
+
+        }
 
         GameManager.SharedInstance.GetPaddlePos(transform.position);
+
+
 
     }
     private void OnTriggerEnter(Collider other)
@@ -70,8 +99,9 @@ public class PaddleScript : MonoBehaviour
             speed = 10;
             slowed = true;
         }
-
+       
     }
 
 
 }
+

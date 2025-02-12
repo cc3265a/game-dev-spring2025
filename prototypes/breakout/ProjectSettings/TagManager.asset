@@ -12,6 +12,7 @@ TagManager:
   - Brick5
   - ball
   - escapeTag
+  - paddle
   layers:
   - Default
   - TransparentFX
