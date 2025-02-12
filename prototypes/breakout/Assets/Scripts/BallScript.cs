@@ -22,6 +22,8 @@ public class BallScript : MonoBehaviour
 
     bool tooMany = false;
 
+    float slowCap = 5;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,17 +36,17 @@ public class BallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(rb.linearVelocity);
-        if (rb.linearVelocity.magnitude < 3 || Mathf.Abs(rb.linearVelocity.y) < 1)
+        print(rb.linearVelocity.magnitude);
+        if (rb.linearVelocity.magnitude < slowCap || Mathf.Abs(rb.linearVelocity.y) < slowCap)
         {
             Vector3 oldVel = rb.linearVelocity;
             tooSlow += Time.deltaTime;
             print("tooslow " + tooSlow + " " + rb.linearVelocity.magnitude);
 
 
-            if (tooSlow >= 3)
+            if (tooSlow >= 2)
             {
-                print("if statement");
+                //print("if statement");
                 //rb.linearVelocity = new Vector3(oldVel.x, oldVel.y * 10, 0);
 
                 float randX = Random.Range(-5f, 5f);
@@ -102,7 +104,7 @@ public class BallScript : MonoBehaviour
             {
                 Vector3 sparePos = new Vector3(transform.position.x + i/2, transform.position.y, transform.position.z);
                 GameObject spare = Instantiate(spareBall, sparePos, transform.rotation);
-                print("i = " + i);
+                //print("i = " + i);
                 i++;
             }
 
@@ -134,7 +136,7 @@ public class BallScript : MonoBehaviour
     
     public void resetBallPos()
     {
-        print("reset ball pos");
+        //print("reset ball pos");
         float paddlePos = GameManager.SharedInstance.getSpawnPos();
         if(paddlePos < -15)
         {
