@@ -705,6 +705,7 @@ MonoBehaviour:
   livesText: {fileID: 1426479950}
   BrickPrefab: {fileID: 4107039970919447606, guid: 69646df14868c9b44acf0938d921e52c, type: 3}
   Brick2Prefab: {fileID: 4107039970919447606, guid: 53193717b6718154e9a5979cf0e83de7, type: 3}
+  Brick3Prefab: {fileID: 4107039970919447606, guid: 2d2b0b470a02c114f89570a41ba61017, type: 3}
   PointsText: {fileID: 673591053}
   Lives: 5
   cam: {fileID: 330585545}
@@ -1502,7 +1503,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 981100234}
-  myCollider: {fileID: 0}
+  myCollider: {fileID: 981100230}
+  spareBall: {fileID: 8688665282505345678, guid: c314f00ddae3d0844bf5a1bc349636f9, type: 3}
+  BallPrefab: {fileID: 0}
 --- !u!1 &1119962628
 GameObject:
   m_ObjectHideFlags: 0
