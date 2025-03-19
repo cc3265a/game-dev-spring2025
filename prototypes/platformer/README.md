@@ -18,7 +18,7 @@ In this version I edited the "slash" to be a game object rather than a png on an
 
 [Play platformer final version](https://cc3265a.github.io/game-dev-spring2025/builds/platformer-final/)
 
-<img src="./images/Platformer-final.png" alt="Platformer gameplay, the visuals of this version didn't change, but this time the camera view shows the starting position of the player and the new slash visual." align="right" width="350">
+<img src="./images/Platformer-3.png" alt="Platformer gameplay, the visuals of this version didn't change, but this time the camera view shows the starting position of the player and the new slash visual." align="right" width="350">
 
 
 
